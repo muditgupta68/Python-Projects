@@ -56,21 +56,6 @@ The following preprocessing steps were performed before analysis:
 - Removed duplicate Customer IDs
 - Converted `SeniorCitizen` values from **0/1** into **Yes/No** for better visualization
 
-## Exploratory Data Analysis
-
-Several visualizations were created to understand customer churn.
-
-The analysis includes:
-
-- Customer Churn Distribution
-- Gender vs Churn
-- Senior Citizen Analysis
-- Tenure Distribution
-- Contract Type Analysis
-- Internet Service Analysis
-- Additional Services Analysis
-- Payment Method Analysis
-
 ## Key Insights
 
 The analysis revealed several important business insights:
