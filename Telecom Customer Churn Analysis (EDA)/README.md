@@ -1,4 +1,4 @@
-# 📊 Telecom Customer Churn Analysis (EDA)
+# 📊 Telecom Customer Churn Analysis (EDA)s
 
 ## Objectives
 
