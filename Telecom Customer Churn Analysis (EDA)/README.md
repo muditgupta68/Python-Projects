@@ -1,4 +1,4 @@
-# 📊 Telecom Customer Churn Analysis (EDA)s
+# 📊 Telecom Customer Churn Analysis (EDA)
 ## Objectives
 
 In this project, I performed an Exploratory Data Analysis (EDA) on the Telecom Customer Churn dataset to identify the key factors influencing customer churn.
