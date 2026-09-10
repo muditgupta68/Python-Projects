@@ -1,0 +1,88 @@
+name: PR Approval Policy
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+  pull_request_review:
+    types:
+      - submitted
+      - dismissed
+
+permissions:
+  pull-requests: read
+
+jobs:
+  approval-policy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check PR approval policy
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const pullNumber = context.payload.pull_request.number;
+
+            const { data: pr } = await github.rest.pulls.get({
+              owner,
+              repo,
+              pull_number: pullNumber
+            });
+
+            const author = pr.user.login;
+
+            // ------------------------------------------------
+            // If PR is created by muditgupta68:
+            // approval is NOT required.
+            // ------------------------------------------------
+            if (author === "muditgupta68") {
+              core.info(
+                "PR created by muditgupta68. Approval is not required."
+              );
+              return;
+            }
+
+            // ------------------------------------------------
+            // For everyone else:
+            // muditgupta68 must approve the CURRENT commit.
+            // ------------------------------------------------
+            const { data: reviews } =
+              await github.rest.pulls.listReviews({
+                owner,
+                repo,
+                pull_number: pullNumber
+              });
+
+            const mudit68Reviews = reviews
+              .filter(
+                review => review.user.login === "muditgupta68"
+              )
+              .sort(
+                (a, b) =>
+                  new Date(b.submitted_at || b.created_at) -
+                  new Date(a.submitted_at || a.created_at)
+              );
+
+            const latestReview = mudit68Reviews[0];
+
+            if (
+              !latestReview ||
+              latestReview.state !== "APPROVED" ||
+              latestReview.commit_id !== pr.head.sha
+            ) {
+              core.setFailed(
+                "Approval from muditgupta68 is required for the latest commit before merging."
+              );
+              return;
+            }
+
+            core.info(
+              "Approved by muditgupta68 for the current commit. Merge allowed."
+            );
