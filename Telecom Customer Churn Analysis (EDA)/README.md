@@ -8,7 +8,7 @@ The project focuses on understanding customer demographics, service subscription
 
 The sections below explain the dataset, technologies used, data preparation process, exploratory analysis, and key findings.
 
-## Table of Contents
+## Table of Contentss
 
 - [Dataset Used](#dataset-used)
 - [Technologies](#technologies)
